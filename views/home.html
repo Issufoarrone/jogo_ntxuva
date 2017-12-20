@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<!-- 	
+	This file is rendered by express.js, when the home url of the chat is opened in a browser.
+	It doesn't do much, except showing the create button for the chat.
+ -->
+
+<html>
+
+<head>
+
+	<title>Ntxuva</title>
+   <!--   <meta property="og:url"           content="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"?>" /> -->
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Ntxuva" />
+    <meta property="og:description"   content="Jogue Ntxuva (xadrez africano) com amigos e familiares em tempo real" />
+    <meta property="og:image"         content="img/share.jpg" />
+	<link type="text/css" rel="stylesheet" href="css/stylesheet.css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans Condensed:300italic,300,700" rel="stylesheet" type="text/css">
+     
+
+</head>
+
+<body>
+
+	
+
+	<section class="section">
+
+		<!-- These elements are displayed as white info cards in the middle of the screen -->
+
+		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 home">
+           
+			<img src="img/Logo.png">
+            <h3>Jogue Ntxuva (xadrez africano)<br>com amigos e familiares<br>em tempo real</h3>
+            <a href="/create">
+            <input  type="button" class="btm butao" value="Jogar" style="margin: 20px;margin-bottom: 40px;" />
+            </a>
+
+		</div>
+       
+        
+    </section> 
+     <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2" style="padding: 0px;">
+        <p style="margin-top: 10px;"><strong>Desenvolvido por:</strong> <a style="color:#ae764a;" href="https://facebook.com/issufo.arrone" target="_blank">Issufo Arrone</a> . <a style="color:#ae764a;" href="https://facebook.com/issufo.arrone" target="_blank">Comunidade de Jogadores</a> </p>
+     </div>
+    <div>
+    </div>
+
+</body>
+</html>
+ <script src="js/jquery-1.11.1.min.js"></script>
+<script>
+
+    var section = $(".section");
+
+    showMessage("home");
+   
+    function showMessage(status,data){
+		
+        if(status === "home"){
+
+			 section.children().css('display', 'none');
+			 $(".home").fadeIn(1200);
+		}
+		
+		
+	}
+		
+</script>
