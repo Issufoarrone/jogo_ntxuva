@@ -40,7 +40,7 @@ module.exports = function(app,io){
 
 		socket.on('load',function(data){
 
-			var room = findClientsSocket(io,data);
+			var room = findClientsSocket(io,data.room_id);
 			if(room.length === 0 ) {
 
 				socket.emit('peopleinchat', {number: 0});
@@ -50,21 +50,22 @@ module.exports = function(app,io){
 				socket.emit('peopleinchat', {
 					number: 1,
 					user: room[0].username,
-					avatar: room[0].avatar,
-					id: data
+					id: data.room_id
 				});
 			}
 			else if(room.length >= 2) {
 
 				chat.emit('tooMany', {boolean: true});
 			}
+			
+			console.log("conectado. room_id:"+data.room_id);
 		});
 
 		// When the client emits 'login', save his name and avatar,
 		// and add them to the room
 		socket.on('login', function(data) {
 
-			var room = findClientsSocket(io, data.id);
+			var room = findClientsSocket(io, data.room_id);
 			// Only two people per room are allowed
 			if (room.length < 2) {
 
@@ -72,15 +73,15 @@ module.exports = function(app,io){
 				// their own unique socket object
 
 				socket.username = data.user;
-				socket.room = data.id;
-				socket.avatar = gravatar.url(data.avatar, {s: '140', r: 'x', d: 'mm'});
+				socket.room = data.room_id;
 
 				// Tell the person what he should use for an avatar
-				socket.emit('img', socket.avatar);
+				//socket.emit('img', socket.avatar);
 
 
 				// Add the client to the room
-				socket.join(data.id);
+				socket.join(data.room_id);
+				console.log("Login:"+data.user);
 
 				if (room.length == 1) {
 
@@ -90,22 +91,19 @@ module.exports = function(app,io){
 					usernames.push(room[0].username);
 					usernames.push(socket.username);
 
-					avatars.push(room[0].avatar);
-					avatars.push(socket.avatar);
 
 					// Send the startChat event to all the people in the
 					// room, along with a list of people that are in it.
 
-					chat.in(data.id).emit('startChat', {
+					chat.in(data.room_id).emit('startChat', {
 						boolean: true,
-						id: data.id,
-						users: usernames,
-						avatars: avatars
+						room_id: data.room_id,
+						users: usernames
 					});
 					
-					chat.in(data.id).emit('startGame', {
+					chat.in(data.room_id).emit('startGame', {
 						first_player_id: true,
-						id: data.id,
+						room_id: data.room_id,
 						users: usernames
 					});
 				}
