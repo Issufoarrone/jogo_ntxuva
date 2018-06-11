@@ -9,7 +9,8 @@ var express = require('express'),
 
 // This is needed if the app is run on heroku:
 
-var port = process.env.PORT || 8882;
+//var port = process.env.PORT || 8882;
+var port = process.env.PORT || 7558;
 
 // Initialize a new socket.io object. It is bound to 
 // the express app, which allows them to coexist.
@@ -23,3 +24,6 @@ require('./config')(app, io);
 require('./routes')(app, io);
 
 console.log('Your application is running on http://localhost:' + port);
+
+
+

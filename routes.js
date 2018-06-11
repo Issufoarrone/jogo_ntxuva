@@ -104,7 +104,8 @@ module.exports = function(app,io){
 					chat.in(data.room_id).emit('startGame', {
 						first_player_id: true,
 						room_id: data.room_id,
-						users: usernames
+						jogador_1_nome: room[0].username,
+						jogador_2_nome: socket.username
 					});
 				}
 			}
@@ -128,6 +129,10 @@ module.exports = function(app,io){
 
 			// leave the room
 			socket.leave(socket.room);
+			
+			
+			
+			console.log("User "+this.username+" Saiu.");
 		});
 
 
@@ -135,21 +140,45 @@ module.exports = function(app,io){
 		socket.on('msg', function(data){
 
 			// When the server receives a message, it sends it to the other person in the room.
-			socket.broadcast.to(socket.room).emit('receive', {msg: data.msg, user: data.user, img: data.img});
+			socket.broadcast.to(data.room_id).emit('msg', {texto: data.texto});
+			console.log(data.room_id+" "+data.texto);
 		});
 		
 		
+		socket.on('escrevendo_msg', function(data){
+
+			// When the server receives a message, it sends it to the other person in the room.
+			socket.broadcast.to(data.room_id).emit('escrevendo_msg', {texto: ""});
+			//console.log(data.room_id+" "+data.texto);
+		});
+		
+		
+		
+		socket.on('destribuir_pedras_oponente', function(data){
+
+			// When the server receives a message, it sends it to the other person in the room.
+			socket.broadcast.to(data.room_id).emit('destribuir_pedras_oponente', {cova: data.cova});
+			//console.log(data.room_id+" Room destribuir pedras");
+		});
+		
+		
+		socket.on('enviar_retirar_opositor_cova_dados', function(data){
+
+			// When the server receives a message, it sends it to the other person in the room.
+			socket.broadcast.to(data.room_id).emit('receber_retirar_opositor_cova_dados', {cova: data.cova});
+		});
+		
+		
+		//
 		socket.on('enviar_jogada', function(data){
 
 			// When the server receives a message, it sends it to the other person in the room.
 			socket.broadcast.to(socket.room).emit('receber_jogada', {cova: data.cova, jogador_id: data.jogador_id});
 		});
 		
-		socket.on('enviar_retirar_opositor_cova_dados', function(data){
-
-			// When the server receives a message, it sends it to the other person in the room.
-			socket.broadcast.to(socket.room).emit('receber_retirar_opositor_cova_dados', {cova: data.cova, jogador_id: data.jogador_id});
-		});
+	
+		
+		
 
         socket.on('iniciar_jogo', function(data){
 
