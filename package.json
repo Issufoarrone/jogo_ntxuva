@@ -1,5 +1,9 @@
 {
   "name": "NodeChatSystem",
+  "engineStrict": true,
+  "engines": {
+    "node": "8.9.2"
+  },
   "version": "0.0.1",
   "description": "Realtime chat system for Tutorialzine.com",
   "main": "app.js",
